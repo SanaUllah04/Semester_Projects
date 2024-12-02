@@ -1,1 +1,227 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { 
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f0f0f0;
+            color: #333;
+        }
+        .slide-container {
+            width: 90%;
+            max-width: 900px;
+            margin: 20px auto;
+        }
+        .slide {
+            background: white;
+            padding: 40px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: none;
+        }
+        .slide.active {
+            display: block;
+        }
+        .title-slide {
+            text-align: center;
+            padding: 100px 40px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .progress {
+            text-align: center;
+            color: #666;
+            margin-top: 10px;
+        }
+        .question {
+            margin-bottom: 30px;
+        }
+        .options {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="slide title-slide active">
+            <h1>Health and Fitness Survey</h1>
+            <h2>Understanding Your Health Profile</h2>
+            <p>Click 'Next' to begin the survey</p>
+        </div>
+
+        <div class="slide">
+            <h2>Personal Information</h2>
+            <div class="question">
+                <h3>1. Age:</h3>
+                <div class="options">
+                    <div><input type="radio" name="age"> 18-25</div>
+                    <div><input type="radio" name="age"> 26-35</div>
+                    <div><input type="radio" name="age"> 36-45</div>
+                    <div><input type="radio" name="age"> 46-60</div>
+                    <div><input type="radio" name="age"> 60+</div>
+                </div>
+            </div>
+            <div class="question">
+                <h3>2. Gender:</h3>
+                <div class="options">
+                    <div><input type="radio" name="gender"> Male</div>
+                    <div><input type="radio" name="gender"> Female</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Physical Activity & Exercise</h2>
+            <div class="question">
+                <h3>3. Do you consider yourself physically active?</h3>
+                <div class="options">
+                    <div><input type="radio" name="active"> Yes</div>
+                    <div><input type="radio" name="active"> No</div>
+                </div>
+            </div>
+            <div class="question">
+                <h3>4. How often do you exercise per week?</h3>
+                <div class="options">
+                    <div><input type="radio" name="exercise"> Never</div>
+                    <div><input type="radio" name="exercise"> 1-2 times</div>
+                    <div><input type="radio" name="exercise"> 3-5 times</div>
+                    <div><input type="radio" name="exercise"> 6+ times</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Health & Lifestyle</h2>
+            <div class="question">
+                <h3>5. Do you follow a specific diet plan?</h3>
+                <div class="options">
+                    <div><input type="radio" name="diet"> Yes</div>
+                    <div><input type="radio" name="diet"> No</div>
+                </div>
+            </div>
+            <div class="question">
+                <h3>6. Have you ever been diagnosed with a heart condition?</h3>
+                <div class="options">
+                    <div><input type="radio" name="heart"> Yes</div>
+                    <div><input type="radio" name="heart"> No</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Medical History</h2>
+            <div class="question">
+                <h3>7. Have you ever been diagnosed with high blood pressure?</h3>
+                <div class="options">
+                    <div><input type="radio" name="bp"> Yes</div>
+                    <div><input type="radio" name="bp"> No</div>
+                </div>
+            </div>
+            <div class="question">
+                <h3>8. Do you smoke?</h3>
+                <div class="options">
+                    <div><input type="radio" name="smoke"> Yes</div>
+                    <div><input type="radio" name="smoke"> No</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Self-Assessment</h2>
+            <div class="question">
+                <h3>9. Rate your overall fitness (1 = Very Poor, 10 = Excellent)</h3>
+                <div class="options">
+                    <input type="range" min="1" max="10" value="5" style="width: 100%">
+                </div>
+            </div>
+            <div class="question">
+                <h3>10. Rate your overall health (1 = Very Poor, 10 = Excellent)</h3>
+                <div class="options">
+                    <input type="range" min="1" max="10" value="5" style="width: 100%">
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Final Questions</h2>
+            <div class="question">
+                <h3>14. How many hours do you sleep per night on average?</h3>
+                <div class="options">
+                    <div><input type="radio" name="sleep"> Less than 6</div>
+                    <div><input type="radio" name="sleep"> 6-8</div>
+                    <div><input type="radio" name="sleep"> More than 8</div>
+                </div>
+            </div>
+            <div class="question">
+                <h3>15. How often do you consume fast food?</h3>
+                <div class="options">
+                    <div><input type="radio" name="fastfood"> Never</div>
+                    <div><input type="radio" name="fastfood"> 1-2 times a week</div>
+                    <div><input type="radio" name="fastfood"> 3-5 times a week</div>
+                    <div><input type="radio" name="fastfood"> Every day</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Thank You!</h2>
+            <p>Your responses have been recorded.</p>
+            <p>This information will help us better understand your health profile.</p>
+        </div>
+
+        <div class="controls">
+            <button onclick="previousSlide()">Previous</button>
+            <button onclick="nextSlide()">Next</button>
+        </div>
+        <div class="progress">Slide <span id="current">1</span> of <span id="total">8</span></div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        document.getElementById('total').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current').textContent = currentSlide + 1;
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function previousSlide() {
+            showSlide(currentSlide - 1);
+        }
+    </script>
+</body>
+</html>
