@@ -1,3 +1,7 @@
+![Alt text](Image.png)
+
+
+
 # Laptop Price Predictor - Setup Instructions
 
 ## Step-by-Step Implementation Guide
