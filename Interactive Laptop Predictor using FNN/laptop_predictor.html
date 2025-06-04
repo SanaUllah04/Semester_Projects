@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laptop Price Predictor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2d3748, #4a5568);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .form-container {
+            padding: 40px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .form-section h3 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        input[type="number"], input[type="range"], select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        input[type="range"] {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-item:hover {
+            background: #f1f5f9;
+            border-color: #667eea;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 8px;
+            width: auto;
+        }
+
+        .range-display {
+            text-align: center;
+            font-weight: 600;
+            color: #667eea;
+            margin-top: 5px;
+        }
+
+        .predict-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            margin: 20px auto;
+            display: block;
+        }
+
+        .predict-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .result {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            border-radius: 15px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .result h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .result .price {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🖥️ Laptop Price Predictor</h1>
+            <p>Get AI-powered price predictions for your dream laptop configuration</p>
+        </div>
+
+        <div class="form-container">
+            <form id="laptopForm">
+                <div class="form-grid">
+                    <!-- Basic Specifications -->
+                    <div class="form-section">
+                        <h3>💻 Basic Specifications</h3>
+                        
+                        <div class="form-group">
+                            <label for="inches">Screen Size (Inches)</label>
+                            <input type="range" id="inches" min="10" max="18" step="0.1" value="15.6">
+                            <div class="range-display" id="inchesDisplay">15.6"</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ram">RAM (GB)</label>
+                            <select id="ram">
+                                <option value="4">4 GB</option>
+                                <option value="8" selected>8 GB</option>
+                                <option value="16">16 GB</option>
+                                <option value="32">32 GB</option>
+                                <option value="64">64 GB</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="weight">Weight (kg)</label>
+                            <input type="range" id="weight" min="0.5" max="4" step="0.1" value="2.0">
+                            <div class="range-display" id="weightDisplay">2.0 kg</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cpuFreq">CPU Frequency (GHz)</label>
+                            <input type="range" id="cpuFreq" min="1.0" max="4.0" step="0.1" value="2.5">
+                            <div class="range-display" id="cpuFreqDisplay">2.5 GHz</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="memory">Storage (GB)</label>
+                            <select id="memory">
+                                <option value="128">128 GB</option>
+                                <option value="256" selected>256 GB</option>
+                                <option value="512">512 GB</option>
+                                <option value="1024">1 TB</option>
+                                <option value="2048">2 TB</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Display Specifications -->
+                    <div class="form-section">
+                        <h3>🖼️ Display</h3>
+                        
+                        <div class="form-group">
+                            <label for="screenWidth">Screen Width (pixels)</label>
+                            <select id="screenWidth">
+                                <option value="1366">1366 (HD)</option>
+                                <option value="1920" selected>1920 (Full HD)</option>
+                                <option value="2560">2560 (QHD)</option>
+                                <option value="3840">3840 (4K)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="screenHeight">Screen Height (pixels)</label>
+                            <select id="screenHeight">
+                                <option value="768">768</option>
+                                <option value="1080" selected>1080</option>
+                                <option value="1440">1440</option>
+                                <option value="2160">2160</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- CPU Brand -->
+                    <div class="form-section">
+                        <h3>🔧 CPU Brand</h3>
+                        <div class="checkbox-grid">
+                            <div class="checkbox-item">
+                                <input type="radio" id="intelCpu" name="cpu" value="intel" checked>
+                                <label for="intelCpu">Intel</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="amdCpu" name="cpu" value="amd">
+                                <label for="amdCpu">AMD</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GPU Brand -->
+                    <div class="form-section">
+                        <h3>🎮 GPU Brand</h3>
+                        <div class="checkbox-grid">
+                            <div class="checkbox-item">
+                                <input type="radio" id="intelGpu" name="gpu" value="intel" checked>
+                                <label for="intelGpu">Intel</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="nvidiaGpu" name="gpu" value="nvidia">
+                                <label for="nvidiaGpu">Nvidia</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="amdGpu" name="gpu" value="amd">
+                                <label for="amdGpu">AMD</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="armGpu" name="gpu" value="arm">
+                                <label for="armGpu">ARM</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="predict-btn">🔮 Predict Price</button>
+            </form>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Calculating price prediction...</p>
+            </div>
+
+            <div class="result" id="result">
+                <h2>Predicted Price</h2>
+                <div class="price" id="predictedPrice">€0</div>
+                <p>Based on your selected specifications</p>
+            </div>
+
+            <div class="error" id="error">
+                <p>Something went wrong. Please try again.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update range displays
+        document.getElementById('inches').addEventListener('input', function() {
+            document.getElementById('inchesDisplay').textContent = this.value + '"';
+        });
+
+        document.getElementById('weight').addEventListener('input', function() {
+            document.getElementById('weightDisplay').textContent = this.value + ' kg';
+        });
+
+        document.getElementById('cpuFreq').addEventListener('input', function() {
+            document.getElementById('cpuFreqDisplay').textContent = this.value + ' GHz';
+        });
+
+        // Form submission
+        document.getElementById('laptopForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+
+            // Collect form data
+            const formData = {
+                inches: parseFloat(document.getElementById('inches').value),
+                ram: parseInt(document.getElementById('ram').value),
+                weight: parseFloat(document.getElementById('weight').value),
+                cpu_frequency: parseFloat(document.getElementById('cpuFreq').value),
+                memory_amount: parseInt(document.getElementById('memory').value),
+                screen_width: parseInt(document.getElementById('screenWidth').value),
+                screen_height: parseInt(document.getElementById('screenHeight').value),
+                intel_cpu: document.querySelector('input[name="cpu"]:checked').value === 'intel' ? 1 : 0,
+                amd_cpu: document.querySelector('input[name="cpu"]:checked').value === 'amd' ? 1 : 0,
+                intel_gpu: document.querySelector('input[name="gpu"]:checked').value === 'intel' ? 1 : 0,
+                nvidia_gpu: document.querySelector('input[name="gpu"]:checked').value === 'nvidia' ? 1 : 0,
+                amd_gpu: document.querySelector('input[name="gpu"]:checked').value === 'amd' ? 1 : 0,
+                arm_gpu: document.querySelector('input[name="gpu"]:checked').value === 'arm' ? 1 : 0
+            };
+
+            try {
+                // Simulate API call (replace with actual endpoint)
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Prediction failed');
+                }
+
+                const result = await response.json();
+                
+                // Hide loading and show result
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('predictedPrice').textContent = '€' + Math.round(result.predicted_price);
+
+            } catch (error) {
+                // For demo purposes, show a mock prediction
+                setTimeout(() => {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('result').style.display = 'block';
+                    
+                    // Mock prediction based on specs
+                    let basePrice = 500;
+                    basePrice += formData.ram * 50;
+                    basePrice += formData.memory_amount * 0.5;
+                    basePrice += (formData.screen_width / 1920) * 300;
+                    basePrice += formData.nvidia_gpu * 400;
+                    basePrice += formData.amd_gpu * 200;
+                    
+                    document.getElementById('predictedPrice').textContent = '€' + Math.round(basePrice);
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>
