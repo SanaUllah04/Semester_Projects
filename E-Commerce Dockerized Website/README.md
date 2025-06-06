@@ -52,12 +52,12 @@ A full-stack e-commerce application built with a microservices architecture, fea
 
 1. Clone the repository:  
    ```bash
-   git clone https://github.com/yourusername/e-commerce-platform.git
+   git clone https://github.com/SanaUllah04/Semester_Projects.git
    ```
 
 2. Navigate to the project directory:  
    ```bash
-   cd e-commerce-platform
+   cd Semester_Projects/"E-Commerce Dockerized Website"
    ```
 
 3. Create a `.env` file in the root directory and add the necessary environment variables (see `.env.example` for reference).
@@ -97,18 +97,6 @@ Contributions are welcome! Please follow these steps:
 4. Submit a pull request with a clear description of your changes.  
 
 Please adhere to the coding standards and include tests for new features.
-
----
-
-## License
-
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
-
----
-
-## Contact
-
-For questions or support, please contact **[your email]** or join our **Discord server**.
 
 ---
 
