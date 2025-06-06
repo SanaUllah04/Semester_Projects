@@ -73,7 +73,7 @@ A full-stack e-commerce application built with a microservices architecture, fea
    docker-compose ps
    ```
 
-6.❗ If nothing shows up, start all containers with:
+6. If nothing shows up, start all containers with:
    ```bash
    docker start $(docker ps -aq)
    ```
