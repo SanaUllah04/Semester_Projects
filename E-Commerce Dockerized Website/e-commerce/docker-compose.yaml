@@ -1,0 +1,134 @@
+services:
+  frontend-user-service:
+    build:
+      context: ./frontend-service
+      dockerfile: Dockerfile
+    ports:
+    - 3000:3000
+    environment:
+    - REACT_APP_AUTH_SERVICE_URL=http://localhost:3001
+    - REACT_APP_PRODUCT_SERVICE_URL=http://localhost:3002
+    - REACT_APP_ORDER_SERVICE_URL=http://localhost:3003
+    - REACT_APP_PAYMENT_SERVICE_URL=http://localhost:3004
+    - REACT_APP_SHIPPING_SERVICE_URL=http://localhost:3005
+    - REACT_APP_NOTIFICATION_SERVICE_URL=http://localhost:3006
+    - JWT_SECRET=your_jwt_secret_key
+
+    networks:
+    - ecommerce-network
+    depends_on:
+    - auth-service
+    - product-service
+    - order-service
+    - payment-service
+    - shipping-service
+    - notification-service
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    ports:
+    - 3001:3001
+    environment:
+    - PORT=3001
+    - MONGO_URI=mongodb://mongo:27017/auth-service
+    - JWT_SECRET=your_jwt_secret_key
+    networks:
+    - ecommerce-network
+    depends_on:
+    - mongo
+  product-service:
+    build:
+      context: ./product-service
+      dockerfile: Dockerfile
+    ports:
+    - 3002:3002
+    environment:
+    - PORT=3002
+    - MONGO_URI=mongodb://mongo:27017/product-service
+    - JWT_SECRET=your_jwt_secret_key
+    networks:
+    - ecommerce-network
+    depends_on:
+    - mongo
+    command: 'sh -c "npm run seed && node src/index.js"
+     ' 
+  order-service:
+    build:
+      context: ./order-service
+      dockerfile: Dockerfile
+    ports:
+    - 3003:3003
+    environment:
+    - PORT=3003
+    - MONGO_URI=mongodb://mongo:27017/order-service
+    - JWT_SECRET=your_jwt_secret_key
+    - PRODUCT_SERVICE_URL=http://localhost:3002
+    - PAYMENT_SERVICE_URL=http://localhost:3004
+    networks:
+    - ecommerce-network
+    depends_on:
+    - mongo
+    - product-service
+    - payment-service
+    command: ["sh", "-c", "sleep 10 && npm start"]
+  payment-service:
+    build:
+      context: ./payment-service
+      dockerfile: Dockerfile
+    ports:
+    - 3004:3004
+    environment:
+    - PORT=3004
+    - MONGO_URI=mongodb://mongo:27017/payment-service
+    - JWT_SECRET=your_jwt_secret_key
+    - ORDER_SERVICE_URL=http://localhost:3003
+    networks:
+    - ecommerce-network
+    depends_on:
+    - mongo
+    
+    command: ["sh", "-c", "sleep 10 && npm start"]
+  shipping-service:
+    build:
+      context: ./shipping-service
+      dockerfile: Dockerfile
+    ports:
+    - 3005:3005
+    environment:
+    - PORT=3005
+    - MONGO_URI=mongodb://mongo:27017/shipping-service
+    - JWT_SECRET=your_jwt_secret_key
+    - NOTIFICATION_SERVICE_URL=http://localhost:3006
+    networks:
+    - ecommerce-network
+    depends_on:
+    - mongo
+  notification-service:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    ports:
+    - 3006:3006
+    environment:
+    - PORT=3006
+    - MONGO_URI=mongodb://mongo:27017/notification-service
+    - JWT_SECRET=your_jwt_secret_key
+    networks:
+    - ecommerce-network
+    depends_on:
+    - mongo
+
+  mongo:
+    image: mongo:latest
+    ports:
+    - 27018:27017
+    volumes:
+    - mongo-data:/data/db
+    networks:
+    - ecommerce-network
+networks:
+  ecommerce-network:
+    driver: bridge
+volumes:
+  mongo-data: null
