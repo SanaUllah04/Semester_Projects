@@ -72,7 +72,17 @@ A full-stack e-commerce application built with a microservices architecture, fea
    docker-compose ps
    ```
 
-6. Once all services are running, access the frontend at:  
+❗ If nothing shows up, start all containers with:
+```bash
+   docker start $(docker ps -aq)
+```
+
+6. Once all services are running (U can check by), 
+   ```bash
+   docker ps
+   ```
+   
+7. Access the frontend at:
    [http://localhost:3000](http://localhost:3000)
 
 ---
