@@ -62,6 +62,7 @@ A full-stack e-commerce application built with a microservices architecture, fea
 
 3. Create a `.env` file in the root directory and add the necessary environment variables (see `.env.example` for reference).
 
+
 4. Build and start the containers:  
    ```bash
    docker-compose up --build
@@ -72,20 +73,21 @@ A full-stack e-commerce application built with a microservices architecture, fea
    docker-compose ps
    ```
 
-❗ If nothing shows up, start all containers with:
+6.❗ If nothing shows up, start all containers with:
    ```bash
    docker start $(docker ps -aq)
    ```
 
-6. Once all services are running (U can check by), 
+7. Once all services are running (U can check by), 
    ```bash
    docker ps
    ```
    
-7. Access the frontend at:
+8. Access the frontend at:
    [http://localhost:3000](http://localhost:3000)
 
 ---
+
 
 ## Usage
 
