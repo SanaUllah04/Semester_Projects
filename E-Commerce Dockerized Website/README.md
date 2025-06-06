@@ -126,3 +126,7 @@ This project uses a **microservices architecture**, with each service handling a
 
 Services communicate via **REST APIs**, and **MongoDB** is used as the database for each service.  
 **Docker** is used to containerize each service, enabling easy deployment and scaling.
+
+
+## Demo Video
+[▶️ Watch Video](./Demo.mp4)
