@@ -74,7 +74,7 @@ A full-stack e-commerce application built with a microservices architecture, fea
 
 ❗ If nothing shows up, start all containers with:
    ```bash
-      docker start $(docker ps -aq)
+   docker start $(docker ps -aq)
    ```
 
 6. Once all services are running (U can check by), 
