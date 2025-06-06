@@ -1,4 +1,4 @@
-![E-Commerce Platform Banner](./image.png)
+![E-Commerce Platform Banner](./E-Commerce.png)
 
 
 # E-Commerce Platform
